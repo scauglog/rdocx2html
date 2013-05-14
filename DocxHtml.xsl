@@ -124,7 +124,7 @@
 					<xsl:value-of select="$relid"/>
 				</xsl:attribute>
 				<xsl:attribute name="src">
-					<xsl:value-of select="document('./word/_rels/document.xml.rels')/rel:Relationships/rel:Relationship[@Id=$relid]/@Target"/>
+					<xsl:value-of select="document('./document.xml.rels')/rel:Relationships/rel:Relationship[@Id=$relid]/@Target"/>
 				</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
