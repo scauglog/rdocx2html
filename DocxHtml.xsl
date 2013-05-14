@@ -19,6 +19,8 @@
 	<xsl:param name="h4" select="'Titre4'" />
 	<xsl:param name="h5" select="'Titre5'" />
 	<xsl:param name="list" select="'Paragraphedeliste'" />
+
+<!--html base-->
 	<xsl:template match="/">
 		<html>
 			<body>
@@ -28,10 +30,12 @@
 			</body>
 		</html>
 	</xsl:template>
-
+	
+<!--add tag for commented text-->
 	<xsl:template match="w:commentRangeStart"><xsl:text disable-output-escaping="yes">&lt;/div&gt; &lt;div class="commented"&gt;</xsl:text></xsl:template>
 	<xsl:template match="w:commentRangeEnd"><xsl:text disable-output-escaping="yes">&lt;/div&gt; &lt;div class="uncommented"&gt;</xsl:text></xsl:template>
-
+	
+<!-- define if paragraph is title list or somthing else-->
 	<xsl:template match="w:p">
 		<xsl:variable name="style" select="w:pPr/w:pStyle/@w:val"/>
 		<xsl:apply-templates select="w:commentRangeStart"/>
@@ -82,12 +86,13 @@
 		<xsl:apply-templates select="w:commentRangeEnd"/>
 	</xsl:template>
 	
+<!-- add text -->	
 	<xsl:template match="w:r">
 		<xsl:value-of select="w:t"/>
 		<xsl:apply-templates select="w:drawing"/>
 	</xsl:template>
 	
-	
+<!-- table -->
 	<xsl:template match="w:tbl">
 		<table>
 			<xsl:apply-templates select="w:tr"/>
@@ -106,11 +111,12 @@
 		</td>
 	</xsl:template>
 	
-	
+<!-- picture -->
 	<xsl:template match="w:drawing">
 		<xsl:apply-templates select="descendant::a:blip" />
 	</xsl:template>
 
+<!-- 'r:embed' attribute in 'a:blip' node give the picture reference and word/_rels/document.xml.rel link picture reference with path where the picture is store-->
 	<xsl:template match="a:blip">
 		<xsl:variable name="relid" select="@r:embed"/>
 		<xsl:element name="img">
