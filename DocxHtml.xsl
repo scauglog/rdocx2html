@@ -13,7 +13,12 @@
     xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
     version="1.0">
 	<xsl:output method="html" omit-xml-declaration="no" indent="yes"/>
-	
+	<xsl:param name="h1" select="'Titre1'" />
+	<xsl:param name="h2" select="'Titre2'" />
+	<xsl:param name="h3" select="'Titre3'" />
+	<xsl:param name="h4" select="'Titre4'" />
+	<xsl:param name="h5" select="'Titre5'" />
+	<xsl:param name="list" select="'Paragraphedeliste'" />
 	<xsl:template match="/">
 		<html>
 			<body>
@@ -32,34 +37,34 @@
 		<xsl:apply-templates select="w:commentRangeStart"/>
 
 		<xsl:choose>
-			<xsl:when test="$style='Titre1'">
+			<xsl:when test="$style=$h1">
 				<h1>
 					<xsl:for-each select="w:r">
 						<xsl:value-of select="w:t"/>
 					</xsl:for-each>
 				</h1>
 			</xsl:when>
-			<xsl:when test="$style='Titre2'">
+			<xsl:when test="$style=$h2">
 				<h2>
 					<xsl:apply-templates select="w:r"/>
 				</h2>
 			</xsl:when>
-			<xsl:when test="$style='Titre3'">
+			<xsl:when test="$style=$h3">
 				<h3>
 					<xsl:apply-templates select="w:r"/>
 				</h3>
 			</xsl:when>
-			<xsl:when test="$style='Titre4'">
+			<xsl:when test="$style=$h4">
 				<h4>
 					<xsl:apply-templates select="w:r"/>
 				</h4>
 			</xsl:when>
-			<xsl:when test="$style='Titre5'">
+			<xsl:when test="$style=$h5">
 				<h5>
 					<xsl:apply-templates select="w:r"/>
 				</h5>
 			</xsl:when>
-			<xsl:when test="$style='Paragraphedeliste'">
+			<xsl:when test="$style=$list">
 				<ul>
 					<li>
 						<xsl:apply-templates select="w:r"/>
