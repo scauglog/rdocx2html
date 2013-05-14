@@ -8,6 +8,8 @@
     xmlns:WX="http://schemas.microsoft.com/office/word/2003/auxHint"
     xmlns:aml="http://schemas.microsoft.com/aml/2001/core"
     xmlns:w10="urn:schemas-microsoft-com:office:word"
+	xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships"
+    xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
     version="1.0">
 	
 	<xsl:template match="/">
@@ -90,10 +92,15 @@
 	
 	
 	<xsl:template match="w:drawing">
-		<xsl:variable name="picture" select="translate(wp:inline/wp:docPr/@name, ' ','')"/>
+		<xsl:apply-templates select="descendant::a:blip" />
+	</xsl:template>
+
+	<xsl:template match="a:blip">
+		<xsl:variable name="relid" select="@r:embed"/>
 		<xsl:element name="img">
 				<xsl:attribute name="src">
-					<xsl:value-of select="$picture"/></xsl:attribute>
-		</xsl:element> 
+					<xsl:value-of select="$relid"/>
+				</xsl:attribute>
+		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>
