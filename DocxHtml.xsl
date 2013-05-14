@@ -12,19 +12,20 @@
 	xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships"
     xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
     version="1.0">
-	<xsl:output method="html" encoding="utf-8" omit-xml-declaration="yes" indent="yes"/>
+	<xsl:output method="html" omit-xml-declaration="no" indent="yes"/>
 	
 	<xsl:template match="/">
 		<html>
 			<body>
-				<p>XSL test</p>
-				<xsl:apply-templates/>
+				<div class="uncommented">
+					<xsl:apply-templates/>
+				</div>
 			</body>
 		</html>
 	</xsl:template>
 
-	<xsl:template match="w:commentRangeStart"><xsl:text disable-output-escaping="yes">&lt;em&gt;</xsl:text></xsl:template>
-	<xsl:template match="w:commentRangeEnd"><xsl:text disable-output-escaping="yes">&lt;/em&gt;</xsl:text></xsl:template>
+	<xsl:template match="w:commentRangeStart"><xsl:text disable-output-escaping="yes">&lt;/div&gt; &lt;div class="commented"&gt;</xsl:text></xsl:template>
+	<xsl:template match="w:commentRangeEnd"><xsl:text disable-output-escaping="yes">&lt;/div&gt; &lt;div class="uncommented"&gt;</xsl:text></xsl:template>
 
 	<xsl:template match="w:p">
 		<xsl:variable name="style" select="w:pPr/w:pStyle/@w:val"/>
@@ -57,6 +58,14 @@
 				<h5>
 					<xsl:apply-templates select="w:r"/>
 				</h5>
+			</xsl:when>
+			<xsl:when test="$style='Paragraphedeliste'">
+				<ul>
+					<li>
+						<xsl:apply-templates select="w:r"/>
+					</li>
+				</ul>
+			
 			</xsl:when>
 			<xsl:otherwise>
 				<p>
@@ -104,7 +113,7 @@
 					<xsl:value-of select="$relid"/>
 				</xsl:attribute>
 				<xsl:attribute name="src">
-					<xsl:value-of select="document('./documentrel.xml')/rel:Relationships/rel:Relationship[@Id=$relid]/@Target"/>
+					<xsl:value-of select="document('./word/_rels/document.xml.rel')/rel:Relationships/rel:Relationship[@Id=$relid]/@Target"/>
 				</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
