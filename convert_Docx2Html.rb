@@ -2,7 +2,7 @@ require 'nokogiri'
 
 doc   = Nokogiri::XML(File.read('document.xml'))
 
-xslt  = Nokogiri::XSLT(File.read('DocxHtmlv2.xsl'))
+xslt  = Nokogiri::XSLT(File.read('DocxHtml.xsl'))
 tmp =xslt.transform(doc)
 puts tmp
 
