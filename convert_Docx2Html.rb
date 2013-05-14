@@ -19,7 +19,6 @@ class WordXmlManipulate
   
   def unzip_file (file, destination)
 	@zip.extract('word/_rels/document.xml.rels', 'document.xml.rels')
-	@zip.extract('word/media', 'media')
   end
   
   def extract
