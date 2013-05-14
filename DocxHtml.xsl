@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 	xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
@@ -11,6 +12,7 @@
 	xmlns:rel="http://schemas.openxmlformats.org/package/2006/relationships"
     xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
     version="1.0">
+	<xsl:output method="html" encoding="utf-8" omit-xml-declaration="yes" indent="yes"/>
 	
 	<xsl:template match="/">
 		<html>
@@ -98,9 +100,13 @@
 	<xsl:template match="a:blip">
 		<xsl:variable name="relid" select="@r:embed"/>
 		<xsl:element name="img">
-				<xsl:attribute name="src">
+				<xsl:attribute name="alt">
 					<xsl:value-of select="$relid"/>
+				</xsl:attribute>
+				<xsl:attribute name="src">
+					<xsl:value-of select="document('./documentrel.xml')/rel:Relationships/rel:Relationship[@Id=$relid]/@Target"/>
 				</xsl:attribute>
 		</xsl:element>
 	</xsl:template>
+	
 </xsl:stylesheet>
