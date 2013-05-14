@@ -18,13 +18,8 @@ class WordXmlManipulate
   end
   
   def unzip_file (file, destination)
-  Zip::ZipFile.open(file) { |zip_file|
-   zip_file.each { |f|
-     f_path=File.join(destination, f.name)
-     FileUtils.mkdir_p(File.dirname(f_path))
-     zip_file.extract(f, f_path) unless File.exist?(f_path)
-   }
-  }
+	@zip.extract('word/_rels/document.xml.rels', 'document.xml.rels')
+	@zip.extract('word/media', 'media')
   end
   
   def extract
@@ -54,8 +49,8 @@ if __FILE__ == $0
   file = ARGV[0]
   save_file = ARGV[1] || file.sub(/\.docx/, '.html')
   w = WordXmlManipulate.open(file)
+  w.unzip_file(file, '')
   html=w.extract
-  w.extract
   w.show html
   w.save(html,save_file)
   puts"complete"
