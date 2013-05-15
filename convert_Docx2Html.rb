@@ -18,26 +18,24 @@ class WordXmlManipulate
   end
   
   def unzip_file (file, destination)
-	#unzip rels file
-  @zip.extract('word/_rels/document.xml.rels', 'document.xml.rels'){true}
-	
-	#unzip media directorie
+	#unzip media folder
 	@zip.each { |f|
      f_path=File.join(destination, f.name.sub(/word\//,''))
 	 if File.exist?(f_path) then
        FileUtils.rm_rf f_path
      end
 	 if f.name=~/\/media\/+[\w+\-.]{1,}/ then
-	   puts f.name
-	   puts f_path
-       FileUtils.mkdir_p(File.dirname(f_path))
+	   FileUtils.mkdir_p(File.dirname(f_path))
        @zip.extract(f, f_path)
 	 end
    }
   end
   
   def extract
-    xml = @zip.read('word/document.xml')
+    #unzip rels file
+    @zip.extract('word/_rels/document.xml.rels', 'document.xml.rels'){true}
+	
+	xml = @zip.read('word/document.xml')
     #initialise Nokogiri reader with document.xml
 	doc   = Nokogiri::XML(xml)
 
@@ -48,11 +46,8 @@ class WordXmlManipulate
 	xslt.transform(doc)
   end
   
-  def show(html)
-    puts html
-  end
-  
-  def save(html,path)
+  def save(html,destination,name)
+    path=File.join(destination, name.concat('.html'))
     f = File.open(path, "w")
     f.write(html)
     f.close      
@@ -62,12 +57,12 @@ end
 if __FILE__ == $0
   file = ARGV[0]
   destination = ARGV[1] || File.dirname(__FILE__)
-  save_file = File.join(destination, file.sub(/\.docx/, '.html'))
   w = WordXmlManipulate.open(file)
-  w.unzip_file(file, destination)
   html=w.extract
-  #w.show html
-  puts save_file
-  w.save(html,save_file)
+  #save html
+  w.save(html,destination, file.sub(/\.docx/, '').sub(/[\/.]/,''))
+  
+  #extract media folder for image
+  w.unzip_file(file, destination)
   puts"complete"
 end
