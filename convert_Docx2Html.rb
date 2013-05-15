@@ -46,8 +46,11 @@ class WordXmlManipulate
 	xslt.transform(doc)
   end
   
-  def save(html,destination,name)
+  def save(html,destination)
+    name =File.basename(@zip.name, '.docx')
+	puts name
     path=File.join(destination, name.concat('.html'))
+    
     f = File.open(path, "w")
     f.write(html)
     f.close      
@@ -60,7 +63,7 @@ if __FILE__ == $0
   w = WordXmlManipulate.open(file)
   html=w.extract
   #save html
-  w.save(html,destination, file.sub(/\.docx/, '').sub(/[\/.]/,''))
+  w.save(html,destination)
   
   #extract media folder for image
   w.unzip_file(file, destination)
