@@ -48,8 +48,7 @@ class WordXmlManipulate
   
   def save(html,destination)
     name =File.basename(@zip.name, '.docx')
-	puts name
-    path=File.join(destination, name.concat('.html'))
+	path=File.join(destination, name.concat('.html'))
     
     f = File.open(path, "w")
     f.write(html)
