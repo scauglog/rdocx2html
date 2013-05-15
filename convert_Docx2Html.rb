@@ -19,7 +19,7 @@ class WordXmlManipulate
   
   def unzip_file (file, destination)
 	#unzip rels file
-	@zip.extract('word/_rels/document.xml.rels', File.join(destination,'document.xml.rels')){true}
+  @zip.extract('word/_rels/document.xml.rels', 'document.xml.rels'){true}
 	
 	#unzip media directorie
 	@zip.each { |f|
