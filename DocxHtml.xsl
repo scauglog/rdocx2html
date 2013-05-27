@@ -23,6 +23,14 @@
 <!--html base-->
 	<xsl:template match="/">
 		<html>
+			<head>
+				<style TYPE="text/css">
+					.commented{background:bisque}
+					table{border:solid black 1px;
+					      border-collapse:collapse}
+					td{border:solid black 1px}
+				</style>
+			</head>
 			<body>
 				<div class="uncommented">
 					<xsl:apply-templates/>
@@ -123,9 +131,9 @@
 				<xsl:attribute name="alt">
 					<xsl:value-of select="$relid"/>
 				</xsl:attribute>
-				<xsl:attribute name="src">
+<!--				<xsl:attribute name="src">
 					<xsl:value-of select="document('./document.xml.rels')/rel:Relationships/rel:Relationship[@Id=$relid]/@Target"/>
-				</xsl:attribute>
+</xsl:attribute>-->
 		</xsl:element>
 	</xsl:template>
 	
